@@ -4,7 +4,11 @@ import Card from './Card'
 
 
 const App = () => {
+    const [disable, setDisable] = useState(true)
 
+    const onEnebal = () => {
+        return setDisable(false)
+    }
 
     return (
         <div className="App">

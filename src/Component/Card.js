@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Rnd } from "react-rnd";
 import '../Styles/Card.css'
 import { Tooltip } from '@material-ui/core';
@@ -10,7 +10,17 @@ import { CircularProgress } from '@material-ui/core';
 
 const Card = ({ Card, x, y }) => {
 
-    const [isLoadding, setIsLoadding] = useState("false")
+    const [disable, setDisable] = useState(false);
+    
+
+    const [count, setCount] = useState(false);
+
+    useEffect(() => {
+     const timeout = setTimeout(() => {
+        setCount(1, true);
+      }, 3000);
+    },[setCount]);
+    
 
     const onAlert = () => {
         //console.log("Alert")
@@ -19,11 +29,18 @@ const Card = ({ Card, x, y }) => {
         })
     }
 
+    const onDisabled = () => {
+        return setDisable(true)
+    }
+
 
     {
-        if (isLoadding === "false") {
+        if (count == true) {
             return (
                 <div>
+                    <div>
+                        <button disabled={disable} onClick={()=>onDisabled} className="btn" type="button">{Card}</button>
+                    </div>
                     <Tooltip title={Card} enterTouchDelay={0} leaveDelay={100} arrow>
                         <Rnd onDragStop={onAlert}
                             default={{
@@ -35,13 +52,12 @@ const Card = ({ Card, x, y }) => {
                             <div>{Card}</div>
                         </Rnd>
                     </Tooltip>
-                    
                     <ToastContainer />
                 </div>
             )
         } else {
             return <div className="Sppiner">
-                <CircularProgress/>
+                <CircularProgress />
             </div>
         }
     }
